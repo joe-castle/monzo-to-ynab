@@ -1,17 +1,24 @@
 module.exports = (transaction) => {
   const account_id = process.env.ACCOUNT_ID;
-  const {
+  let {
     created: date,
     amount,
     id: import_id,
-    notes: memo
+    description: memo = 'SOMETHING WENT WRONG, CHECK THE TRANSACTION',
+    notes
   } = transaction
+  let payee_name = 'MISSING MERCHANT';
 
-  let payee_name = null;
-  if (transaction.merchant) {
-    payee_name = transaction.merchant.name
-  } else if (transaction.counterparty.name) {
+  if (transaction.counterparty && transaction.counterparty.name) {
     payee_name = transaction.counterparty.name
+  } else if (transaction.merchant) {
+    payee_name = transaction.merchant.name
+  }
+
+  if (transaction.merchant && transaction.counterparty.name) {
+    memo = `${memo}: ${transaction.merchant.name}`
+  } else if (notes !== notes) {
+    memo = `${memo}: ${notes}`
   }
 
   return { transaction: {
@@ -19,7 +26,7 @@ module.exports = (transaction) => {
     date, 
     amount: amount * 10, 
     payee_name, 
-    memo, 
+    memo,
     import_id, 
     cleared: "cleared" }
   }
