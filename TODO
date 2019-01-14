@@ -1,0 +1,8 @@
+features:
+  ☐ Send email / notifaction when I get failier (node-notifier)????
+  ☐ forward monzo transactions on to ynab
+  ☐ register webhook with monzo
+  ☐ install node as service on ubuntu server?
+  ☐ https
+  ☐ have error log for failures (in memory for now)
+  ☐ have array to record any extra types not documented by monzo (in memroy for now)
