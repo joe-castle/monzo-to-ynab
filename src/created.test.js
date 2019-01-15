@@ -5,7 +5,6 @@ describe('transaction.created function', () => {
   it('Generates a YNAB API compatible object from a standard merchant transaction', () => {
     const { transaction } = created(json.merchant)
 
-    expect(transaction.account_id).toBe(process.env.ACCOUNT_ID)
     expect(transaction.date).toBe('2019-01-12T19:21:03.484Z')
     expect(transaction.amount).toBe(-65900)
     expect(transaction.payee_name).toBe('Mez Turkish Restaurant')
@@ -17,7 +16,6 @@ describe('transaction.created function', () => {
   it('Generates a YNAB API compatible object from a p2p monzo payment, i.e. split bill', () => {
     const { transaction } = created(json.p2p)
 
-    expect(transaction.account_id).toBe(process.env.ACCOUNT_ID)
     expect(transaction.date).toBe('2019-01-12T20:14:55.199Z')
     expect(transaction.amount).toBe(11740)
     expect(transaction.payee_name).toBe('Iftekhar Ahmed')
@@ -29,7 +27,6 @@ describe('transaction.created function', () => {
   it('Generates a YNAB API compatible object from a faster payment, i.e. bank transfer', () => {
     const { transaction } = created(json.faster)
 
-    expect(transaction.account_id).toBe(process.env.ACCOUNT_ID)
     expect(transaction.date).toBe('2019-01-08T20:09:59.106Z')
     expect(transaction.amount).toBe(10000)
     expect(transaction.payee_name).toBe('Joseph Smith')
@@ -40,6 +37,12 @@ describe('transaction.created function', () => {
 
   it('Test empty object passed in', () => {
     const { transaction } = created({})
+
+    expect(transaction.memo).toBe('SOMETHING WENT WRONG, CHECK THE TRANSACTION')
+  })
+
+  it('Test nothing passed in', () => {
+    const { transaction } = created()
 
     expect(transaction.memo).toBe('SOMETHING WENT WRONG, CHECK THE TRANSACTION')
   })

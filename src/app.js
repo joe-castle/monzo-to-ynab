@@ -1,14 +1,14 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 
-const created = requre('./created')
-
-const app = express()
+const created = require('./created')
 
 const typeArray = []
 const errors = []
 
 module.exports = (fetch) => {
+  const app = express()
+
   app.use(bodyParser.json())
 
   app.post('/', (req, res) => {
@@ -25,8 +25,8 @@ module.exports = (fetch) => {
         'Accept': 'application/json'
       },
       body: JSON.stringify(transaction)
-    }).then(res => res.json())
-      .then(json => {
+    }).then((res) => res.json())
+      .then((json) => {
         res.status(201).send('Done')
       })
       .catch((err) => {
