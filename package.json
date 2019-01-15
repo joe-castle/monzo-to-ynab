@@ -2,9 +2,12 @@
   "name": "monzo-to-ynab",
   "version": "0.0.1",
   "description": "Monzo to ynab",
-  "main": "index.js",
+  "main": "./src/index.js",
   "author": "Joe Smith <joesmith0488@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "node ./src/index.js"
+  },
   "dependencies": {
     "body-parser": "^1.18.3",
     "dotenv": "^6.2.0",
