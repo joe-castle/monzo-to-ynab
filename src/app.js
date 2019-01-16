@@ -7,6 +7,7 @@ const typeArray = []
 const errors = []
 
 module.exports = (fetch) => {
+  const { BUDGET_ID, ACCESS_TOKEN } = process.env
   const app = express()
 
   app.use(bodyParser.json())
@@ -18,7 +19,7 @@ module.exports = (fetch) => {
       typeArray.push(req.body.type)
     }
 
-    fetch(`https://api.youneedabudget.com/v1/budgets/${process.env.BUDGET_ID}/transactions?access_token=${process.env.ACCESS_TOKEN}`, {
+    fetch(`https://api.youneedabudget.com/v1/budgets/${BUDGET_ID}/transactions?access_token=${ACCESS_TOKEN}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

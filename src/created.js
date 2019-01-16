@@ -1,3 +1,5 @@
+const account_id = process.env.ACCOUNT_ID;
+
 module.exports = ({
   created: date,
   amount,
@@ -7,7 +9,6 @@ module.exports = ({
   counterparty,
   merchant
 } = {}) => {
-  const account_id = process.env.ACCOUNT_ID;
   let payee_name = 'MISSING MERCHANT';
 
   if (counterparty && counterparty.name) {
