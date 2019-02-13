@@ -1,9 +1,11 @@
+const { generate } = require('shortid')
+
 const account_id = process.env.ACCOUNT_ID;
 
 module.exports = ({
   created: date,
   amount,
-  id: import_id,
+  id: import_id = generate(),
   description: memo = 'SOMETHING WENT WRONG, CHECK THE TRANSACTION',
   notes,
   counterparty,

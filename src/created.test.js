@@ -1,3 +1,5 @@
+const { isValid } = require('shortid')
+
 const created = require('./created')
 const json = require('./created.test.json')
 
@@ -39,11 +41,13 @@ describe('transaction.created function', () => {
     const { transaction } = created({})
 
     expect(transaction.memo).toBe('SOMETHING WENT WRONG, CHECK THE TRANSACTION')
+    expect(isValid(transaction.id)).toBe(true)
   })
 
   it('Test nothing passed in', () => {
     const { transaction } = created()
 
     expect(transaction.memo).toBe('SOMETHING WENT WRONG, CHECK THE TRANSACTION')
+    expect(isValid(transaction.id)).toBe(true)
   })
 })

@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const created = require('./created')
 
 const typeArray = []
+const transactions = []
 const errors = []
 
 module.exports = (fetch) => {
@@ -16,8 +17,10 @@ module.exports = (fetch) => {
     const transaction = created(req.body.data)
 
     if (req.body.type !== 'transaction.created') {
-      typeArray.push(req.body.type)
+      typeArray.push({ date: transaction.date || (new Date()).toLocaleString(), type: req.body.type, })
     }
+
+    transactions.push({ date: transaction.date || (new Date()).toLocaleString(), transaction: req.body })
 
     fetch(`https://api.youneedabudget.com/v1/budgets/${BUDGET_ID}/transactions?access_token=${ACCESS_TOKEN}`, {
       method: 'POST',
@@ -31,8 +34,12 @@ module.exports = (fetch) => {
         res.status(201).send('Done')
       })
       .catch((err) => {
-        errors.push(err)
+        errors.push({ date: (new Date()).toLocaleString(), err })
       })
+  })
+
+  app.get('/transactions', (req, res) => {
+    res.json(transactions)
   })
 
   app.get('/types', (req, res) => {
