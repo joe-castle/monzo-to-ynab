@@ -6,13 +6,18 @@ module.exports = ({
   created: date,
   amount,
   id: import_id = generate(),
-  description: memo = 'SOMETHING WENT WRONG, CHECK THE TRANSACTION',
+  description,
   notes,
   counterparty,
   merchant
 } = {}) => {
   let payee_name = 'MISSING MERCHANT';
+  let memo = description;
 
+  if (description != null && description.startsWith('pot')) {
+    payee_name = process.env[description]
+  }
+  
   if (counterparty && counterparty.name) {
     payee_name = counterparty.name
   } else if (merchant) {
