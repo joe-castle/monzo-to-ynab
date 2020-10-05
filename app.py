@@ -2,7 +2,7 @@ import os
 import requests
 from datetime import datetime
 from flask import Flask, request, jsonify
-from .created import created
+from create_ynab_json import create_ynab_json
 
 app = Flask(__name__)
 
@@ -17,12 +17,12 @@ def make_log(arg, date=datetime.now().strftime('%d/%m/%Y, %H:%M:%S')):
 
 @app.route('/', methods=['POST'])
 def receive_monzo_transaction():
-    transaction = created(request.json)
+    transaction = create_ynab_json(request.json['data'])
 
-    if request.json.type != 'transaction.created':
-        type_array.append(make_log({'type': request.json.type}, transaction.date))
+    if request.json['type'] != 'transaction.created':
+        type_array.append(make_log({'type': request.json['type']}, transaction['transaction']['date']))
 
-    transactions.append(make_log({'transaction': request.json.type}, transaction.date))
+    transactions.append(make_log({'transaction': request.json['type']}, transaction['transaction']['date']))
 
     r = requests.post(f'https://api.youneedabudget.com/v1/budgets/{os.getenv("BUDGET_ID")}/transactions?access_token='
                       f'{os.getenv("ACCESS_TOKEN")}', json=transaction)
@@ -47,3 +47,7 @@ def get_types():
 @app.route('/errors')
 def get_errors():
     return jsonify(errors)
+
+
+if __name__ == '__main__':
+    app.run('0.0.0.0', os.getenv('PORT'))
